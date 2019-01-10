@@ -11,11 +11,14 @@ subdomain", e.g. "re.example.com", all names in that subdomain (e.g.
    nodata for all other types
 3. else return a CNAME record pointing to "name" part as a domain (e.g. "a.b.")
 
+The DNS64 version is *NOT* usable.
+
 # Test
 
 ```bash
 cd subdomain-recur-cname/
 pdns_recursor --config-dir=test
+# pdns_recursor --config-dir=test-dns64
 dig -p 5333 @::1 A    www.google.com.re.example.com
 dig -p 5333 @::1 AAAA www.google.com.re.example.com
 dig -p 5333 @::1 A    1.1.1.1.re.example.com
