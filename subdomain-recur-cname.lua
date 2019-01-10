@@ -1,18 +1,19 @@
+followupCNAME = true
 recurdomainstr = "re.example.com"
 recurdomain = newDN(recurdomainstr)
 
 function isIpAddress(ip)
   if not ip then return false end
-  local a,b,c,d=ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
-  a=tonumber(a)
-  b=tonumber(b)
-  c=tonumber(c)
-  d=tonumber(d)
+  local a,b,c,d = ip:match("^(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)$")
+  a = tonumber(a)
+  b = tonumber(b)
+  c = tonumber(c)
+  d = tonumber(d)
   if not a or not b or not c or not d then return false end
-  if a<0 or 255<a then return false end
-  if b<0 or 255<b then return false end
-  if c<0 or 255<c then return false end
-  if d<0 or 255<d then return false end
+  if a < 0 or 255 < a then return false end
+  if b < 0 or 255 < b then return false end
+  if c < 0 or 255 < c then return false end
+  if d < 0 or 255 < d then return false end
   return true
 end
 
@@ -28,6 +29,9 @@ function preresolve(dq)
       end
     else
       dq:addAnswer(pdns.CNAME, name)
+      if followupCNAME then
+        dq.followupFunction = "followCNAMERecords"
+      end
     end
     return true;
   end
